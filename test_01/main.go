@@ -22,8 +22,8 @@ func main() {
 	// var result float32 = floatNum64 + intNum64
 	// fmt.Println(result)
 
-	var myString string = "Hello" + " " + "World!"
-	fmt.Println(myString)
+	var myStringTest string = "Hello" + " " + "World!"
+	fmt.Println(myStringTest)
 	fmt.Println(len("☯"))
 	fmt.Println(utf8.RuneCountInString("☯"))
 
@@ -198,6 +198,18 @@ func main() {
 	fmt.Println(number)
 	number /= 10
 	fmt.Println(number)
+
+	// STRINGS
+	// STRINGS
+
+	var myString = "résumé"
+	fmt.Println(myString)
+	var stringIndexed = myString[0]
+	fmt.Printf("%v, %T\n", stringIndexed, stringIndexed)
+	for index, value := range myString {
+		fmt.Println(index, value)
+	}
+
 }
 
 // FUNCTIONS
