@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"strings"
 	"unicode/utf8"
 )
 
@@ -27,8 +28,8 @@ func main() {
 	fmt.Println(len("☯"))
 	fmt.Println(utf8.RuneCountInString("☯"))
 
-	var myRune rune = 'a' // ?
-	fmt.Println(myRune)
+	var myRuneTest rune = 'a' // ?
+	fmt.Println(myRuneTest)
 
 	var myBoolean bool = false
 	fmt.Println(myBoolean)
@@ -209,7 +210,85 @@ func main() {
 	for index, value := range myString {
 		fmt.Println(index, value)
 	}
+	fmt.Printf("The length of 'myString' is %v bytes. To find the length in characters you need to do math.\n", len(myString))
 
+	var myRune = 'r'
+	fmt.Printf("myRune = %v\n", myRune)
+
+	var stringSlice = []string{"s", "u", "b", "s", "c", "r", "i", "b", "e"}
+	var concatString = ""
+	fmt.Printf("%v\n", concatString)
+	for index := range stringSlice {
+		concatString += stringSlice[index]
+	}
+	fmt.Printf("%v\n", concatString)
+
+	var stringSlice2 = []string{"m", "j", "a", "u"}
+	var stringBuilder strings.Builder
+	for index := range stringSlice2 {
+		stringBuilder.WriteString(stringSlice2[index])
+	}
+	fmt.Println(stringSlice2)
+
+	// STRUCT
+	// STRUCT
+
+	var myEngine gasEngine = gasEngine{kmPerLitre: 55, litre: 30, owner: owner{name: "Jon-Jon"}}
+	var myEngine2 gasEngine = gasEngine{70, 115, owner{"Jon"}}
+	fmt.Println(myEngine)
+	fmt.Println(myEngine2.kmPerLitre, myEngine2.litre, myEngine2.name)
+
+	// INTERFACE
+	// INTERFACE 
+
+	var myEngine3 gasEngine = gasEngine{50, 100, owner{"Jon"}}
+	canMakeIt(myEngine3, 50)
+
+	//  POINTERS
+	//  POINTERS
+
+	
+}
+
+// STRUCT 
+// STRUCT 
+type owner struct {
+	name string
+}
+
+type gasEngine struct {
+	kmPerLitre uint8
+	litre uint8
+	owner
+}
+type electricalEngine struct {
+	kmPerKwh uint8
+	kwh uint8
+	owner
+}
+
+func (engine gasEngine) kmLeft() uint8 {
+	return engine.litre * engine.kmPerLitre
+}
+
+func (engine electricalEngine) kmLeft() uint8 {
+	return engine.kwh * engine.kwh
+}
+
+
+// INTERFACE
+// INTERFACE
+
+type engine interface {
+	kmLeft() uint8
+}
+
+func canMakeIt(engine engine, km uint8) {
+	if km <= engine.kmLeft() {
+		fmt.Println("You can make it! 👍")
+	} else {
+		fmt.Println("You can not make it! :(")
+	}
 }
 
 // FUNCTIONS
