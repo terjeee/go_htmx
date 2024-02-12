@@ -3,7 +3,9 @@ package main
 import (
 	"errors"
 	"fmt"
+	"math/rand"
 	"strings"
+	"time"
 	"unicode/utf8"
 )
 
@@ -246,27 +248,52 @@ func main() {
 
 	//  POINTERS
 	//  POINTERS
-
-		var p *int32 = new(int32)
-		var ii int32 
-		fmt.Printf("The value of *p points to: %v \n", *p)		
-		fmt.Printf("The value of ii is:  %v\n", ii)
-		*p = 10
-		fmt.Printf("The value of *p points to: %v \n", *p)
-		var memoryAddress *int32 = &ii	
-		fmt.Printf("The value of memoryAddress is:  %v\n", memoryAddress)
-
-		var thing1 = [5]float32{1, 2, 3, 4, 5}
-		fmt.Printf("Location is %p\nValue is: %v\n", &thing1, thing1)
-		var resultPoint [5]float32 = square(&thing1)
-		fmt.Printf("Location of result is %p\nValue is: %v\n", &resultPoint, resultPoint)
-	}
 	
-	func square(array *[5]float32) [5]float32 {
+	var p *int32 = new(int32)
+	var ii int32 
+	fmt.Printf("The value of *p points to: %v \n", *p)		
+	fmt.Printf("The value of ii is:  %v\n", ii)
+	*p = 10
+	fmt.Printf("The value of *p points to: %v \n", *p)
+	var memoryAddress *int32 = &ii	
+	fmt.Printf("The value of memoryAddress is:  %v\n", memoryAddress)
+
+	var thing1 = [5]float32{1, 2, 3, 4, 5}
+	fmt.Printf("Location is %p\nValue is: %v\n", &thing1, thing1)
+	var resultPoint [5]float32 = square(&thing1)
+	fmt.Printf("Location of result is %p\nValue is: %v\n", &resultPoint, resultPoint)
+	
+	// Goroutines
+	// Goroutines
+
+	
+	// t0 := time.Now()
+	
+	for i := 0; i < len(dbData); i++ {
+		dbCall(i)
+	}
+}
+
+// Goroutinees
+// Goroutinees
+
+var dbData = []string{"id1", "id2", "id3", "id3", "id4", "id5"}
+
+func dbCall (integer int) {
+	var delay float32 = rand.Float32() * 2000
+	time.Sleep(time.Duration(delay) * time.Millisecond)
+	fmt.Println("dbCall result: ", dbData[integer])
+}
+
+// Pointers
+// Pointers
+
+func square(array *[5]float32) [5]float32 {
 	fmt.Printf("Location is %p\nValue is: %v\n", &array, array)
 	for i := range array {
 		array[i] = array[i] * array[i]
 	}
+
 	return *array
 }
 
@@ -332,19 +359,3 @@ func intDivision(numerator int, denominator int) (int, int, error) {
 
 	return result, remainder, error
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
