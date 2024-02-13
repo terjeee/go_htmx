@@ -276,6 +276,11 @@ func main() {
 	
 	fmt.Println(results)
 	fmt.Println("total execution time: ", time.Since(t0))
+
+	// CHANNELS
+	// CHANNELS
+
+	
 }
 
 // Goroutinees
