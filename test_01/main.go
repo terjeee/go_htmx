@@ -3,8 +3,8 @@ package main
 import (
 	"errors"
 	"fmt"
-	"math/rand"
 	"strings"
+	"sync"
 	"time"
 	"unicode/utf8"
 )
@@ -266,23 +266,36 @@ func main() {
 	// Goroutines
 	// Goroutines
 
-	
-	// t0 := time.Now()
+	t0 := time.Now()
 	
 	for i := 0; i < len(dbData); i++ {
-		dbCall(i)
+		waitGroup.Add(1)
+		go dbCall(i)
 	}
+	waitGroup.Wait()
+	
+	fmt.Println(results)
+	fmt.Println("total execution time: ", time.Since(t0))
 }
 
 // Goroutinees
 // Goroutinees
 
+var mutex = sync.Mutex{}
+var waitGroup = sync.WaitGroup{}
 var dbData = []string{"id1", "id2", "id3", "id3", "id4", "id5"}
+// uten waitGroup = 5.5 sek
+// med waitGroup = 1.6 sek
+var results = []string{}
 
 func dbCall (integer int) {
-	var delay float32 = rand.Float32() * 2000
+	var delay float32 = 2000
 	time.Sleep(time.Duration(delay) * time.Millisecond)
 	fmt.Println("dbCall result: ", dbData[integer])
+	mutex.Lock()
+	results = append(results, dbData[integer])
+	mutex.Unlock()
+	waitGroup.Done()
 }
 
 // Pointers
