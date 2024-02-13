@@ -9,7 +9,7 @@ import (
 	"unicode/utf8"
 )
 
-func main() {
+func test() {
 	var intNum int = 1
 	// var intNum16 int16 = 32767
 	// var intNum16 int16 = 32767 + 1
