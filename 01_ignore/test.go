@@ -306,7 +306,7 @@ func dbCall (integer int) {
 // Pointers
 // Pointers
 
-func square(array *[5]float32) [5]float32 {
+func square2(array *[5]float32) [5]float32 {
 	fmt.Printf("Location is %p\nValue is: %v\n", &array, array)
 	for i := range array {
 		array[i] = array[i] * array[i]
@@ -317,26 +317,26 @@ func square(array *[5]float32) [5]float32 {
 
 // STRUCT 
 // STRUCT 
-type owner struct {
+type owner2 struct {
 	name string
 }
 
-type gasEngine struct {
+type gasEngine2 struct {
 	kmPerLitre uint8
 	litre uint8
 	owner
 }
-type electricalEngine struct {
+type electricalEngine2 struct {
 	kmPerKwh uint8
 	kwh uint8
 	owner
 }
 
-func (engine gasEngine) kmLeft() uint8 {
+func (engine gasEngine) kmLeft2() uint8 {
 	return engine.litre * engine.kmPerLitre
 }
 
-func (engine electricalEngine) kmLeft() uint8 {
+func (engine electricalEngine) kmLeft2() uint8 {
 	return engine.kwh * engine.kwh
 }
 
@@ -344,11 +344,11 @@ func (engine electricalEngine) kmLeft() uint8 {
 // INTERFACE
 // INTERFACE
 
-type engine interface {
+type engine2 interface {
 	kmLeft() uint8
 }
 
-func canMakeIt(engine engine, km uint8) {
+func canMakeIt2(engine engine, km uint8) {
 	if km <= engine.kmLeft() {
 		fmt.Println("You can make it! 👍")
 	} else {
@@ -359,11 +359,11 @@ func canMakeIt(engine engine, km uint8) {
 // FUNCTIONS
 // FUNCTIONS
 
-func printMe(printValue string) {
+func printMe2(printValue string) {
 	fmt.Println("func: " + printValue)
 }
 
-func intDivision(numerator int, denominator int) (int, int, error) {
+func intDivision2(numerator int, denominator int) (int, int, error) {
 	var error error
 
 	if denominator == 0 {
