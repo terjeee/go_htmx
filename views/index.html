@@ -1,17 +1,49 @@
-{{ block "index" .}}
-
+{{ block "index" . }}
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Document</title>
+    <title>HTMX + GO</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+    <script
+      src="https://unpkg.com/htmx.org@1.9.10"
+      integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
+      crossorigin="anonymous"
+    ></script>
   </head>
+
   <body>
-    Count {{ .Count }}
-    <button hx-post="/count">Count</button>
+    <section id="section_02">
+      {{ template "createContact" . }}
+      <ul id="contacts" style="display: flex; flex-direction: column;">
+        <!-- {{ template "displayContacts" . }} -->
+      </ul>
+    </section>
+
+    <section id="section_01" style="margin-top: 6rem;">
+      <div id="count">
+        {{ template "count" . }}
+        <button hx-post="/count" hx-target="#count">Count</button>
+      </div>
+    </section>
   </body>
 </html>
+{{ end }} 
 
+{{ block "createContact" . }}
+  <form hx-post="/contacts" style="max-width: 15rem; display: flex; flex-direction: column;"></form>
+    <input id="name" type="text" name="name">
+    <input id="email" type="text" name="email">
+    <button type="submit">Create Contact</button>
+  </form> 
+{{ end }}
+
+<!-- {{ block "displayContacts" . }}
+  {{ range .Contacts}}
+    <li>{{ .Name }}, {{ .Email }}</li>
+  {{ end }}
+{{ end }} -->
+
+{{ block "count" . }}
+  <h5 style="display: inline">Counter: {{ .Count }}</h5>
 {{ end }}

@@ -8,12 +8,22 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-type Templates struct {
-	templates *template.Template
+type Contact struct {
+	Name  string
+	Email string
 }
 
 type Count struct {
 	Count int
+}
+
+type Contacts = []Contact
+
+type Data struct {
+	Contacts Contacts
+}
+type Templates struct {
+	templates *template.Template
 }
 
 func (t *Templates) Render(writer io.Writer, name string, data interface{}, context echo.Context) error {
@@ -26,21 +36,48 @@ func newTemplate() *Templates {
 	}
 }
 
+func newContact(name string, email string) Contact {
+	return Contact{
+		Name:  name,
+		Email: email,
+	}
+}
+
+func newData() Data {
+	return Data{
+		Contacts: []Contact{
+			newContact("Jon", "jon@gmail.com"),
+			newContact("Jon2", "jon2@gmail.com"),
+		},
+	}
+}
+
 func main() {
 	e := echo.New()
 	e.Use(middleware.Logger())
 
+	data := newData()
 	count := Count{Count: 0}
+
 	e.Renderer = newTemplate()
 
 	e.GET("/", func(c echo.Context) error {
 		return c.Render(200, "index", count)
 	})
 
-	e.POST("/count", func(c echo.Context) error {
-		count.Count++
-		return c.Render(200, "index", count)
+	e.POST("/contacts", func(c echo.Context) error {
+		name := c.FormValue("name")
+		email := c.FormValue("email")
+
+		data.Contacts = append(data.Contacts, newContact(name, email))
+
+		return c.Render(200, "index", data)
 	})
 
-	e.Logger.Fatal(e.Start(":42069"))
+	e.POST("/count", func(c echo.Context) error {
+		count.Count++
+		return c.Render(200, "count", count)
+	})
+
+	e.Logger.Fatal(e.Start(":1738"))
 }
